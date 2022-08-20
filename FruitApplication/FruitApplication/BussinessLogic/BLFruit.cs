@@ -1,4 +1,4 @@
-﻿using FruitApplication.Entities;
+﻿using FruitApplication.Models;
 using FruitApplication.Repository;
 using System;
 using System.Collections.Generic;
@@ -14,31 +14,27 @@ namespace FruitApplication.BussinessLogic
             _repository = repository;
         }
 
-        public async Task<IEnumerable<FruitDTOModel>> FindAllAsync()
+        public async Task<IEnumerable<Fruit>> FindAllAsync()
         {
             return await _repository.FindAllAsync();
         }
 
-        public async Task<FruitDTOModel> FindByIdAsync(long id)
+        public async Task<Fruit> FindByIdAsync(long id)
         {
             return await _repository.FindByIdAsync(id);
         }
 
-        public async Task<FruitDTOModel> SaveAsync(FruitDTOModel fruit)
+        public async Task<Fruit> SaveAsync(Fruit fruit)
         {
-            await _repository.SaveAsync(fruit);
-
-            return fruit;
+             return await _repository.SaveAsync(fruit);;
         }
 
-        public async Task<FruitDTOModel> UpdateAsync(long id, FruitDTOModel fruit)
+        public async Task<Fruit> UpdateAsync(long id, Fruit fruit)
         {
             if (fruit.Id != id)
                 throw new ArgumentException("Id can not be the same to update.");
 
-            await _repository.UpdateAsync(id, fruit);
-
-            return fruit;
+            return await _repository.UpdateAsync(id, fruit); ;
         }
 
         public async Task DeleteAsync(long id)

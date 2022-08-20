@@ -1,9 +1,10 @@
 ﻿using FruitApplication.DataAccess.Utils;
-using FruitApplication.Entities;
+using FruitApplication.Models;
 using FruitApplication.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FruitApplication.DataAccess.Repository
@@ -17,67 +18,87 @@ namespace FruitApplication.DataAccess.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<FruitDTOModel>> FindAllAsync()
+        public async Task<IEnumerable<Fruit>> FindAllAsync()
         {
-            return await _context.Fruits.ToListAsync();
+            return await _context.Fruits.Include(x => x.Type).ToListAsync();
         }
 
-        public async Task<FruitDTOModel> FindByIdAsync(long id)
+        public async Task<Fruit> FindByIdAsync(long id)
         {
-            return await _context.Fruits.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Fruits.Include(x => x.Type).FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<FruitDTOModel> SaveAsync(FruitDTOModel fruit)
+        public async Task<Fruit> SaveAsync(Fruit fruit)
         {
-            if (fruit == null)
-                throw new Exception("fruit resquested to save does not exist.");
-
             try
             {
-                _context.Fruits.Add(fruit);
+                var fruitRecorded = await FruitExists(fruit);
 
-                await _context.SaveChangesAsync();
+                if (fruitRecorded == null)
+                {
+                    _context.Fruits.Add(fruit);
+
+                    await _context.SaveChangesAsync();
+
+                    return fruit;
+                }
+                else
+                {
+                    return fruitRecorded;
+                }
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
-            return fruit;
         }
-
-        public async Task<FruitDTOModel> UpdateAsync(long id, FruitDTOModel fruit)
+        public async Task<Fruit> UpdateAsync(long id, Fruit fruit)
         {
-            if (fruit.Id != id)
-                throw new ArgumentException("Id can not be the same to update.");
-
             try
             {
-                _context.Update(fruit);
+                _context.Fruits.Update(fruit);
 
                 await _context.SaveChangesAsync();
-            } 
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
 
-            return fruit;
+                return fruit;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                if (FruitExists(fruit) == null)
+                {
+                    throw new ArgumentNullException(nameof(fruit));
+                }
+                else
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
         }
 
         public async Task DeleteAsync(long id)
         {
             if (_context == null)
-                throw new ArgumentNullException("_context");
+                throw new ArgumentNullException(nameof(_context));
 
             var fruit = await _context.Fruits.FindAsync(id);
 
             if (fruit == null)
-                throw new Exception("fruit id resquested to delete does not exist.");
+                throw new ArgumentNullException(nameof(fruit));
 
-            _context.Remove(fruit);
+            try
+            {
+                _context.Fruits.Remove(fruit);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        private async Task<Fruit> FruitExists(Fruit fruit)
+        {
+            return await _context.Fruits.Include(x => x.Type).FirstOrDefaultAsync(x => x.Name == fruit.Name && x.Type.Name == fruit.Type.Name);
         }
     }
 }

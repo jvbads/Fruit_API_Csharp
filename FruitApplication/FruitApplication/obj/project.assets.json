@@ -9035,11 +9035,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Projects\\Teste_Number8\\FruitApplication\\FruitApplication\\FruitApplication.csproj",
+      "projectUniqueName": "C:\\Projects\\Fruit_API_Csharp\\FruitApplication\\FruitApplication\\FruitApplication.csproj",
       "projectName": "FruitApplication",
-      "projectPath": "C:\\Projects\\Teste_Number8\\FruitApplication\\FruitApplication\\FruitApplication.csproj",
+      "projectPath": "C:\\Projects\\Fruit_API_Csharp\\FruitApplication\\FruitApplication\\FruitApplication.csproj",
       "packagesPath": "C:\\Users\\Jhon\\.nuget\\packages\\",
-      "outputPath": "C:\\Projects\\Teste_Number8\\FruitApplication\\FruitApplication\\obj\\",
+      "outputPath": "C:\\Projects\\Fruit_API_Csharp\\FruitApplication\\FruitApplication\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

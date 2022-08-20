@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Tz5gK8gRwneWWRpQdfPVKiSyM7gVv+9y0dbR22IVbup7AgUuNbAwR5QpLTA8ZK6shD+GDrVVpBBjWIQk6AX1qw==",
+  "dgSpecHash": "JUsUYxcXABTtbEJmI0zFhqkmLIlWkklHPrAr55pTOxVRj6U+rODexkfMIuJentY2bUuYLPpTZyBl+nmIDC5feA==",
   "success": true,
-  "projectFilePath": "C:\\Projects\\Teste_Number8\\FruitApplication\\FruitApplication\\FruitApplication.csproj",
+  "projectFilePath": "C:\\Projects\\Fruit_API_Csharp\\FruitApplication\\FruitApplication\\FruitApplication.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jhon\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Jhon\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",

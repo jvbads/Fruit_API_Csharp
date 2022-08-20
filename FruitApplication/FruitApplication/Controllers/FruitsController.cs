@@ -1,5 +1,5 @@
 ﻿using FruitApplication.BussinessLogic;
-using FruitApplication.Entities;
+using FruitApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,39 +11,44 @@ namespace FruitApplication.Controllers
     [Route("[controller]")]
     public class FruitsController : ControllerBase
     {
-        private readonly IBLFruit _bussinessLogicFruit;
+        private readonly IBLFruit _bLFruit;
 
-        public FruitsController(IBLFruit bussinessLogicFruit)
+        public FruitsController(IBLFruit bLFruit)
         {
-            _bussinessLogicFruit = bussinessLogicFruit;
+            _bLFruit = bLFruit;
         }
 
         // The method FindAllFruits() should return all existing fruits.
         [HttpGet]
-        public async Task<IEnumerable<FruitDTOModel>> FindAllFruits()
+        
+        public async Task<ActionResult<IEnumerable<Fruit>>> FindAllFruits()
         {
-            return await _bussinessLogicFruit.FindAllAsync();
+            var fruits = await _bLFruit.FindAllAsync();
+
+            return Ok(fruits);
         }
 
         // The method FindFruitById() should return a single fruit by its id.
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<FruitDTOModel>> FindFruitById(int id)
+        public async Task<ActionResult<Fruit>> FindFruitById(int id)
         {
-            return await _bussinessLogicFruit.FindByIdAsync(id);
+            var fruit = await _bLFruit.FindByIdAsync(id);
+
+            return Ok(fruit);
         }
 
         // The method SaveFruit() should add a new fruit to the list.
         [HttpPost]
-        public async Task<ActionResult<FruitDTOModel>> SaveFruit(FruitDTOModel fruit)
+        public async Task<ActionResult<Fruit>> SaveFruit(Fruit fruit)
         {
             if (fruit == null)
                 return NotFound();
 
             if (ModelState.IsValid)
             {
-                await _bussinessLogicFruit.SaveAsync(fruit);
+               var fruitSaved = await _bLFruit.SaveAsync(fruit);
 
-                return fruit;
+                return Created(nameof(SaveFruit), fruitSaved);
             }
             else
             {
@@ -53,13 +58,15 @@ namespace FruitApplication.Controllers
 
         // The method UpdateFruit() should update an existing fruit.
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<FruitDTOModel>> UpdateFruit(FruitDTOModel fruit, int id)
+        public async Task<ActionResult<Fruit>> UpdateFruit(Fruit fruit, int id)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    return await _bussinessLogicFruit.UpdateAsync(id, fruit); ;
+                    await _bLFruit.UpdateAsync(id, fruit); ;
+
+                    return NoContent();
                 }
                 catch (Exception ex)
                 {
@@ -78,13 +85,13 @@ namespace FruitApplication.Controllers
         {
             try
             {
-                await _bussinessLogicFruit.DeleteAsync(id);
+                await _bLFruit.DeleteAsync(id);
 
                 return NoContent();
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
     }

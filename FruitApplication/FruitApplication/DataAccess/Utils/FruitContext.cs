@@ -1,5 +1,4 @@
-﻿using FruitApplication.Entities;
-using FruitApplication.Models;
+﻿using FruitApplication.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FruitApplication.DataAccess.Utils
@@ -12,11 +11,11 @@ namespace FruitApplication.DataAccess.Utils
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<FruitDTOModel>(Entity => Entity.Property(e => e.Id).ValueGeneratedOnAdd());
+            modelBuilder.Entity<Fruit>(Entity => Entity.Property(e => e.Id).ValueGeneratedOnAdd());
         }
 
-        public DbSet<FruitDTOModel> Fruits { get; set; }
-        public DbSet<FruitTypeModel> FruitTypes { get; set; }
+        public DbSet<Fruit> Fruits { get; set; }
+        public DbSet<FruitType> FruitTypes { get; set; }
     }
 
 }
