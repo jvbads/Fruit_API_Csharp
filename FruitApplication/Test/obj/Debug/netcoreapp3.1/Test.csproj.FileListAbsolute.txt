@@ -306,7 +306,6 @@ C:\Projects\Fruit_API_Csharp\FruitApplication\Test\bin\Debug\netcoreapp3.1\refs\
 C:\Projects\Fruit_API_Csharp\FruitApplication\Test\bin\Debug\netcoreapp3.1\refs\System.Resources.Reader.dll
 C:\Projects\Fruit_API_Csharp\FruitApplication\Test\bin\Debug\netcoreapp3.1\refs\System.Resources.ResourceManager.dll
 C:\Projects\Fruit_API_Csharp\FruitApplication\Test\bin\Debug\netcoreapp3.1\refs\System.Resources.Writer.dll
-C:\Projects\Fruit_API_Csharp\FruitApplication\Test\bin\Debug\netcoreapp3.1\refs\System.Runtime.CompilerServices.Unsafe.dll
 C:\Projects\Fruit_API_Csharp\FruitApplication\Test\bin\Debug\netcoreapp3.1\refs\System.Runtime.CompilerServices.VisualC.dll
 C:\Projects\Fruit_API_Csharp\FruitApplication\Test\bin\Debug\netcoreapp3.1\refs\System.Runtime.dll
 C:\Projects\Fruit_API_Csharp\FruitApplication\Test\bin\Debug\netcoreapp3.1\refs\System.Runtime.Extensions.dll
@@ -491,3 +490,6 @@ C:\Projects\Fruit_API_Csharp\FruitApplication\Test\bin\Debug\netcoreapp3.1\runti
 C:\Projects\Fruit_API_Csharp\FruitApplication\Test\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Projects\Fruit_API_Csharp\FruitApplication\Test\bin\Debug\netcoreapp3.1\FruitApplication.dll
 C:\Projects\Fruit_API_Csharp\FruitApplication\Test\bin\Debug\netcoreapp3.1\FruitApplication.pdb
+C:\Projects\Fruit_API_Csharp\FruitApplication\Test\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Projects\Fruit_API_Csharp\FruitApplication\Test\bin\Debug\netcoreapp3.1\ServiceStack.Text.dll
+C:\Projects\Fruit_API_Csharp\FruitApplication\Test\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll

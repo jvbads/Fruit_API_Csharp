@@ -2,7 +2,7 @@
 
 namespace FruitApplication.Migrations
 {
-    public partial class Initial : Migration
+    public partial class UpdatedEnities : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -10,9 +10,7 @@ namespace FruitApplication.Migrations
                 name: "FruitTypes",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FruitTypeId = table.Column<int>(type: "int", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },

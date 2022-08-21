@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Test
+namespace FruitTest
 {
     public class WebApiFactory : WebApplicationFactory<FruitApplication.Startup>
     {

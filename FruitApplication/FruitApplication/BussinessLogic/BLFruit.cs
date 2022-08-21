@@ -1,10 +1,8 @@
-﻿using FruitApplication.Models;
-using FruitApplication.Repository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FruitApplication.BussinessLogic
+namespace FruitApplication
 {
     public class BLFruit : IBLFruit
     {
@@ -14,22 +12,22 @@ namespace FruitApplication.BussinessLogic
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Fruit>> FindAllAsync()
+        public async Task<IEnumerable<FruitDTO>> FindAllAsync()
         {
             return await _repository.FindAllAsync();
         }
 
-        public async Task<Fruit> FindByIdAsync(long id)
+        public async Task<FruitDTO> FindByIdAsync(long id)
         {
             return await _repository.FindByIdAsync(id);
         }
 
-        public async Task<Fruit> SaveAsync(Fruit fruit)
+        public async Task<FruitDTO> SaveAsync(FruitDTO fruit)
         {
              return await _repository.SaveAsync(fruit);;
         }
 
-        public async Task<Fruit> UpdateAsync(long id, Fruit fruit)
+        public async Task<FruitDTO> UpdateAsync(long id, FruitDTO fruit)
         {
             if (fruit.Id != id)
                 throw new ArgumentException("Id can not be the same to update.");

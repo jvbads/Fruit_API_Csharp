@@ -278,3 +278,6 @@ C:\Projects\Fruit_API_Csharp\FruitApplication\FruitApplication\obj\Debug\netcore
 C:\Projects\Fruit_API_Csharp\FruitApplication\FruitApplication\obj\Debug\netcoreapp3.1\FruitApplication.dll
 C:\Projects\Fruit_API_Csharp\FruitApplication\FruitApplication\obj\Debug\netcoreapp3.1\FruitApplication.pdb
 C:\Projects\Fruit_API_Csharp\FruitApplication\FruitApplication\obj\Debug\netcoreapp3.1\FruitApplication.genruntimeconfig.cache
+C:\Projects\Fruit_API_Csharp\FruitApplication\FruitApplication\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Projects\Fruit_API_Csharp\FruitApplication\FruitApplication\bin\Debug\netcoreapp3.1\ServiceStack.Text.dll
+C:\Projects\Fruit_API_Csharp\FruitApplication\FruitApplication\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll

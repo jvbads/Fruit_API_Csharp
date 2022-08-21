@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FruitApplication.Models
+namespace FruitApplication
 {
-    public class Fruit
+    public class FruitDTO
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,20 +16,9 @@ namespace FruitApplication.Models
         //[MinLength(25, ErrorMessage = "This {0} field need to have minimun {1} caracters.")]
         public string Description { get; set; }
 
+        [ForeignKey("Type")]
         public int FruitTypeId { get; set; }
 
-        [ForeignKey("FruitTypeId")]
-        public FruitType Type { get; set; } 
-
-        public Fruit()
-        {
-        }
-        public Fruit(int id, string name, string description, FruitType type)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-            Type = type;
-        }
+        public virtual FruitTypeDTO Type { get; set; }
     }
 }

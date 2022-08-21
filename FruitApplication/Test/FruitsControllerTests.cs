@@ -1,22 +1,22 @@
-using FruitApplication.Models;
 using NUnit.Framework;
-using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text.Json;
 using System.Threading.Tasks;
+using System.Net.Http.Headers;
+using System.Net.Http;
+using System.Text.Json;
+using System.Linq;
+using System.Collections.Generic;
+using FruitApplication;
 
-namespace Test
+namespace FruitTest
 {
     [TestFixture]
     public class FruitsControllerTests
     {
         private WebApiFactory _factory;
         private HttpClient _client;
-
         [SetUp]
-        public void Setup()
+        public void SetUp()
         {
             _factory = new WebApiFactory();
             _client = _factory.CreateClient();
@@ -26,19 +26,14 @@ namespace Test
         public async Task CreateFruitRespondsWithCreated()
         {
             var content = CreateContentFruit("Papaya", "Tropical", CreateFruitType());
-
             var response = await _client.PostAsync("/fruits", content);
-            
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-            
             string responseBody = await response.Content.ReadAsStringAsync();
 
             try
             {
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
-                var actual = JsonSerializer.Deserialize<Fruit>(responseBody, options);
-                
+                var actual = JsonSerializer.Deserialize<FruitDTO>(responseBody, options);
                 Assert.That(actual.Id, Is.EqualTo(1));
                 Assert.That(actual.Name, Is.EqualTo("Papaya"));
                 Assert.That(actual.Description, Is.EqualTo("Tropical"));
@@ -54,23 +49,16 @@ namespace Test
         public async Task GetFruitsRespondsWithOk()
         {
             var content = CreateContentFruit("Melon", "Delicious", CreateFruitType());
-
             var response = await _client.PostAsync("/fruits", content);
-
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-
             response = await _client.GetAsync("/fruits");
-
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-
             string responseBody = await response.Content.ReadAsStringAsync();
 
             try
             {
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
-                var actual = JsonSerializer.Deserialize<List<Fruit>>(responseBody, options);
-
+                var actual = JsonSerializer.Deserialize<List<FruitDTO>>(responseBody, options);
                 Assert.That(actual.Count, Is.EqualTo(1));
                 Assert.That(actual[0].Id, Is.EqualTo(1));
                 Assert.That(actual[0].Name, Is.EqualTo("Melon"));
@@ -87,23 +75,16 @@ namespace Test
         public async Task GetFruitRespondsWithOk()
         {
             var content = CreateContentFruit("Melon", "Delicious", CreateFruitType());
-
             var response = await _client.PostAsync("/fruits", content);
-
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-
             response = await _client.GetAsync($"/fruits/1");
-
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-
             string responseBody = await response.Content.ReadAsStringAsync();
 
             try
             {
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
-                var actual = JsonSerializer.Deserialize<Fruit>(responseBody, options);
-
+                var actual = JsonSerializer.Deserialize<FruitDTO>(responseBody, options);
                 Assert.That(actual, Is.Not.Null);
                 Assert.That(actual.Id, Is.EqualTo(1));
                 Assert.That(actual.Name, Is.EqualTo("Melon"));
@@ -119,25 +100,17 @@ namespace Test
         public async Task DeleteFruitRespondsWithNotContent()
         {
             var content = CreateContentFruit("Banana", "Yellow", CreateFruitType());
-
             var response = await _client.PostAsync("/fruits", content);
-
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-
             response = await _client.DeleteAsync("/fruits/1");
-
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
-
             response = await _client.GetAsync("/fruits");
-
             string responseBody = await response.Content.ReadAsStringAsync();
 
             try
             {
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
-                var actual = JsonSerializer.Deserialize<List<Fruit>>(responseBody, options);
-
+                var actual = JsonSerializer.Deserialize<List<FruitDTO>>(responseBody, options);
                 Assert.That(actual.Count, Is.EqualTo(0));
             }
             catch (JsonException)
@@ -149,7 +122,6 @@ namespace Test
         public async Task DeleteFruitRespondsWithNotFound()
         {
             var response = await _client.DeleteAsync("/fruits/10");
-
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
         }
 
@@ -157,27 +129,18 @@ namespace Test
         public async Task PutFruitRespondsWithNoContent()
         {
             var content = CreateContentFruit("Orange", "From California", CreateFruitType());
-
             var response = await _client.PostAsync("/fruits", content);
-
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-
             content = CreateContentFruit(1, "Orange", "From California State", CreateFruitType());
-
             response = await _client.PutAsync("/fruits/1", content);
-
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
-
             response = await _client.GetAsync("/fruits/1");
-
             string responseBody = await response.Content.ReadAsStringAsync();
 
             try
             {
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
-                var actual = JsonSerializer.Deserialize<Fruit>(responseBody, options);
-
+                var actual = JsonSerializer.Deserialize<FruitDTO>(responseBody, options);
                 Assert.That(actual.Id, Is.EqualTo(1));
                 Assert.That(actual.Name, Is.EqualTo("Orange"));
                 Assert.That(actual.Description, Is.EqualTo("From California State"));
@@ -195,22 +158,16 @@ namespace Test
             _factory.Dispose();
         }
 
-        private static ByteArrayContent CreateContentFruit(string name, string description, FruitType fruitType)
+        private static ByteArrayContent CreateContentFruit(string name, string description, FruitTypeDTO fruitType)
         {
-            var item = JsonSerializer.Serialize(new
-            { 
-                Name = name, 
-                Description = description, 
-                Type = fruitType 
-            });
-
+            var item = JsonSerializer.Serialize(
+                new { Name = name, Description = description, Type = fruitType }
+            );
             var content = new StringContent(item);
-
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
             return content;
         }
-        private static ByteArrayContent CreateContentFruit(long id, string name, string description, FruitType fruitType)
+        private static ByteArrayContent CreateContentFruit(long id, string name, string description, FruitTypeDTO fruitType)
         {
             var item = JsonSerializer.Serialize(
                 new { Id = id, Name = name, Description = description, Type = fruitType }
@@ -220,11 +177,11 @@ namespace Test
             return content;
         }
 
-        private static FruitType CreateFruitType()
+        private static FruitTypeDTO CreateFruitType()
         {
-            return new FruitType
+            return new FruitTypeDTO
             {
-                FruitTypeId = 1,
+                Id = 1,
                 Name = "Citric",
                 Description = "Like oranges",
             };

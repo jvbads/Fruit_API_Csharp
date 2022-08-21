@@ -1,15 +1,14 @@
-﻿using FruitApplication.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FruitApplication.BussinessLogic
+namespace FruitApplication
 {
     public interface IBLFruit
     {
-        Task<IEnumerable<Fruit>> FindAllAsync();
-        Task<Fruit> FindByIdAsync(long id);
-        Task<Fruit> SaveAsync(Fruit fruit);
-        Task<Fruit> UpdateAsync(long id, Fruit fruit);
+        Task<IEnumerable<FruitDTO>> FindAllAsync();
+        Task<FruitDTO> FindByIdAsync(long id);
+        Task<FruitDTO> SaveAsync(FruitDTO fruit);
+        Task<FruitDTO> UpdateAsync(long id, FruitDTO fruit);
         Task DeleteAsync(long id);
     }
 }

@@ -1,11 +1,10 @@
-﻿using FruitApplication.BussinessLogic;
-using FruitApplication.Models;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FruitApplication.Controllers
+namespace FruitApplication
 {
     [ApiController]
     [Route("[controller]")]
@@ -18,37 +17,54 @@ namespace FruitApplication.Controllers
             _bLFruit = bLFruit;
         }
 
-        // The method FindAllFruits() should return all existing fruits.
+        /// <summary>
+        /// The method FindAllFruits() return all existing fruits.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        
-        public async Task<ActionResult<IEnumerable<Fruit>>> FindAllFruits()
+
+        public async Task<ActionResult<IEnumerable<FruitDTO>>> FindAllFruits()
         {
             var fruits = await _bLFruit.FindAllAsync();
+
+            if (fruits == null)
+                return StatusCode(StatusCodes.Status404NotFound, new { staus = (int)StatusCodes.Status404NotFound, msg = "Fruits not found", date = DateTime.Now });
 
             return Ok(fruits);
         }
 
-        // The method FindFruitById() should return a single fruit by its id.
+        /// <summary>
+        /// The method FindFruitById() return a single fruit by its id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Fruit>> FindFruitById(int id)
+        public async Task<ActionResult<FruitDTO>> FindFruitById(int id)
         {
             var fruit = await _bLFruit.FindByIdAsync(id);
+
+            if (fruit == null)
+                return StatusCode(StatusCodes.Status404NotFound, new { staus = (int)StatusCodes.Status404NotFound, msg = "Fruit not found", date = DateTime.Now });
 
             return Ok(fruit);
         }
 
-        // The method SaveFruit() should add a new fruit to the list.
+        /// <summary>
+        /// The method SaveFruit() add a new fruit to the list.
+        /// </summary>
+        /// <param name="fruit"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<Fruit>> SaveFruit(Fruit fruit)
+        public async Task<ActionResult<FruitDTO>> SaveFruit(FruitDTO fruit)
         {
             if (fruit == null)
-                return NotFound();
+                return StatusCode(StatusCodes.Status404NotFound, new { staus = (int)StatusCodes.Status404NotFound, msg = "Fruit not found", date = DateTime.Now });
 
             if (ModelState.IsValid)
             {
-               var fruitSaved = await _bLFruit.SaveAsync(fruit);
+                var fruitSaved = await _bLFruit.SaveAsync(fruit);
 
-                return Created(nameof(SaveFruit), fruitSaved);
+                return Created(nameof(fruitSaved), fruitSaved);
             }
             else
             {
@@ -56,9 +72,14 @@ namespace FruitApplication.Controllers
             }
         }
 
-        // The method UpdateFruit() should update an existing fruit.
+        /// <summary>
+        /// The method UpdateFruit() update an existing fruit.
+        /// </summary>
+        /// <param name="fruit"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<Fruit>> UpdateFruit(Fruit fruit, int id)
+        public async Task<ActionResult<FruitDTO>> UpdateFruit(FruitDTO fruit, int id)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +100,11 @@ namespace FruitApplication.Controllers
             }
         }
 
-        // The method DeleteFruit() should delete an existing fruit.
+        /// <summary>
+        /// The method DeleteFruit() delete an existing fruit.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteFruit(int id)
         {

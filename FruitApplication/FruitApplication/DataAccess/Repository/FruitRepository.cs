@@ -1,13 +1,9 @@
-﻿using FruitApplication.DataAccess.Utils;
-using FruitApplication.Models;
-using FruitApplication.Repository;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace FruitApplication.DataAccess.Repository
+namespace FruitApplication
 {
     public class FruitRepository : IFruitRepository
     {
@@ -18,17 +14,17 @@ namespace FruitApplication.DataAccess.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Fruit>> FindAllAsync()
+        public async Task<IEnumerable<FruitDTO>> FindAllAsync()
         {
             return await _context.Fruits.Include(x => x.Type).ToListAsync();
         }
 
-        public async Task<Fruit> FindByIdAsync(long id)
+        public async Task<FruitDTO> FindByIdAsync(long id)
         {
             return await _context.Fruits.Include(x => x.Type).FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Fruit> SaveAsync(Fruit fruit)
+        public async Task<FruitDTO> SaveAsync(FruitDTO fruit)
         {
             try
             {
@@ -52,7 +48,7 @@ namespace FruitApplication.DataAccess.Repository
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<Fruit> UpdateAsync(long id, Fruit fruit)
+        public async Task<FruitDTO> UpdateAsync(long id, FruitDTO fruit)
         {
             try
             {
@@ -96,9 +92,10 @@ namespace FruitApplication.DataAccess.Repository
                 throw new Exception(ex.Message);
             }
         }
-        private async Task<Fruit> FruitExists(Fruit fruit)
+        private async Task<FruitDTO> FruitExists(FruitDTO fruit)
         {
-            return await _context.Fruits.Include(x => x.Type).FirstOrDefaultAsync(x => x.Name == fruit.Name && x.Type.Name == fruit.Type.Name);
+            return await _context.Fruits.Include(x => x.Type)
+                                        .FirstOrDefaultAsync(x => x.Name == fruit.Name && x.Type.Name == fruit.Type.Name);
         }
     }
 }

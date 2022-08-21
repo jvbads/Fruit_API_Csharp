@@ -1,13 +1,10 @@
-using FruitApplication.BussinessLogic;
-using FruitApplication.DataAccess.Repository;
-using FruitApplication.DataAccess.Utils;
-using FruitApplication.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace FruitApplication
 {
@@ -28,20 +25,17 @@ namespace FruitApplication
             services.AddScoped<IFruitRepository, FruitRepository>();
             services.AddScoped<IBLFruit, BLFruit>();
 
-            // SQL Server 
-            services.AddDbContext<FruitContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FruitContext"),
-                                                builder => builder.MigrationsAssembly("FruitApplication")));
+            //// SQL Server 
+            //services.AddDbContext<FruitContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FruitContext"),
+            //                                    builder => builder.MigrationsAssembly("FruitApplication")));
 
-            //services.AddScoped<SeedingService>();
+            string DBUUID = Guid.NewGuid().ToString();
 
-            //string DBUUID = Guid.NewGuid().ToString();
+            services.AddDbContext<FruitContext>(options => options.UseInMemoryDatabase("FruitList" + DBUUID));
 
-            //services.AddDbContext<FruitContext>(options => options.UseInMemoryDatabase("FruitList" + DBUUID));
+            services.AddScoped<IFruitRepository, FruitRepository>();
 
-            //services.AddScoped<IFruitRepository, FruitRepository>();
-
-            //services.AddScoped<IBLFruit, BLFruit>();
-
+            services.AddScoped<IBLFruit, BLFruit>();
 
             services.AddSwaggerGen();
         }

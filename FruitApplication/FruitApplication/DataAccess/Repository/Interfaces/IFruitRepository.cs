@@ -1,15 +1,14 @@
-﻿using FruitApplication.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FruitApplication.Repository
+namespace FruitApplication
 {
     public interface IFruitRepository
     {
-        Task<IEnumerable<Fruit>> FindAllAsync();
-        Task<Fruit> FindByIdAsync(long id);
-        Task<Fruit> SaveAsync(Fruit fruitDTO);
-        Task<Fruit> UpdateAsync(long id, Fruit fruitDTO);
+        Task<IEnumerable<FruitDTO>> FindAllAsync();
+        Task<FruitDTO> FindByIdAsync(long id);
+        Task<FruitDTO> SaveAsync(FruitDTO fruitDTO);
+        Task<FruitDTO> UpdateAsync(long id, FruitDTO fruitDTO);
         Task DeleteAsync(long id);
     }
 }
